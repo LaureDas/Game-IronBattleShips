@@ -15,7 +15,6 @@ Ship.prototype.hit = function(hitLocation) {
 };
 
 Ship.prototype.isSunk = function() {
-  this.score = this.score - 1;
   return this.shipHits.every(val => {
     return val == true;
   });
@@ -26,6 +25,7 @@ var GameBoard = function(size) {
   this.size = size;
   this.misses = [];
   this.hits = [];
+  this.shotStack = [0];
 };
 
 GameBoard.prototype.addShip = function(start, inclination, ship) {
