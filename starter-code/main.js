@@ -26,6 +26,7 @@ var player2 = new Player("computer");
 $(document).ready(function() {
   player1.gameBoard = new GameBoard(10);
   player2.gameBoard = new GameBoard(10);
+  var countPcHits = 0;
 
   //DEBUG CONSOLE
   function debug() {
@@ -164,54 +165,64 @@ $(document).ready(function() {
       console.log("the end: YOU WON");
     }
     //call AITake over humans function and send into it the RANDOM CELLS
-    computerAttack();
+
+    setTimeout(function() {
+      computerAttack();
+    }, 2000);
   });
   //COMPUTER COUNTER PART ATTACK
 
-  //player2.attack()
-  //add classes
-  //end if player1.gameBoard.allSink()
-  function computerAttack() {
-    //initialize first attack to be completely random
-    if (
-      player1.gameBoard.misses.length === 0 &&
-      player1.gameBoard.hits.length === 0
-    ) {
-      var randomFirstx = Math.floor(Math.random() * 10);
-      var randomFirsty = Math.floor(Math.random() * 10);
-      var firstCell = { x: randomFirstx, y: randomFirsty };
-      player2.AItakeOverHumanAttack(firstCell, player1);
-
-      //change color by adding classes
-      var pcCell = $(
-        "#playerboard > .row >.cell[data-id=" +
-          "" +
-          randomFirsty +
-          "" +
-          '][data-row="' +
-          "" +
-          randomFirstx +
-          "" +
-          '"]'
-      );
-      var classCell = pcCell.attr("class");
-      if (classCell === "cell horizontalS" || classCell === "cell verticalS") {
-        pcCell.addClass("hit");
-      } else if (classCell === "cell") {
-        pcCell.addClass("miss");
-      }
-      if (player2.gameBoard.allSink()) {
-        console.log("the end: YOU WON");
-      }
-      //$('#playerboard>.row>.cell[data-id="7"][data-row="0"]').addClass('hit');
-      //var $pcCell=$('#playerboard>.row>.cell[data-id="7"][data-row="0"]')
-      //.addClass('miss');
-      //change the color of the cell
+  //OUTLAY COMPUTER ATTACKS
+  var outlayComputer = function(randomX, randomY) {
+    var pcCell = $(
+      "#playerboard > .row >.cell[data-id=" +
+        "" +
+        randomY +
+        "" +
+        '][data-row="' +
+        "" +
+        randomX +
+        "" +
+        '"]'
+    );
+    var classCell = pcCell.attr("class");
+    if (classCell === "cell horizontalS" || classCell === "cell verticalS") {
+      pcCell.addClass("hit");
+      // countPcHits++;
+    } else if (classCell === "cell") {
+      pcCell.addClass("miss");
     }
+  };
 
+  function computerAttack() {
+    //look through miss and hit et si trouve alors, recalcule les random (en fonction)
+
+    x = Math.floor(Math.random() * 10);
+    y = Math.floor(Math.random() * 10);
+    var firstCell = { x: x, y: y };
+    player2.AItakeOverHumanAttack(firstCell, player1);
+    //change color by adding classes through outlayComputer fn()
+    outlayComputer(x, y);
+    //console.log(randomX, randomY); OK IM GETTING THE VALUE
+    //end statement
     if (player2.gameBoard.allSink()) {
       console.log("the end: AI WON");
     }
+
+    //var coords=[x,y];
+    //if(miss.)
+
+    // var firstE = player1.gameBoard.shotStack[0];
+    /*switch (firstE) {
+      case 0: //random
+     
+        break;
+
+      case 1:
+      
+
+        break;
+    }*/
   }
 
   //END THE GAME BEAUT
@@ -258,3 +269,15 @@ for (var i = 0; i < cols; i++) {
 /*player1.gameBoard.placeShips(arrayShips);
 player2.gameBoard.placeShips(arrayShips);
 */
+
+//$('#playerboard>.row>.cell[data-id="7"][data-row="0"]').addClass('hit');
+//var $pcCell=$('#playerboard>.row>.cell[data-id="7"][data-row="0"]')
+//.addClass('miss');
+//change the color of the cell
+
+//ai
+//initialize first attack to be completely random
+/*if (
+      player1.gameBoard.misses.length === 0 &&
+      player1.gameBoard.hits.length === 0
+    ) {*/
