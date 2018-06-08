@@ -160,6 +160,8 @@ GameBoard.prototype.hitShipInCell = function(cell) {
         }
       }
       if (x.ship.isSunk() && x.ship.score > 0) {
+        $(".popup").html("The player has sunk the opponent's " + x.ship.name);
+        $(".popup").fadeIn(1000);
         x.ship.score--;
       }
     });
@@ -177,6 +179,26 @@ GameBoard.prototype.allSink = function() {
   return allSink;
 };
 
+GameBoard.prototype.aiTriesToThink = function() {
+  var left = [];
+  for (var i = 0; i < this.size; i++) {
+    for (var j = 0; j < this.size; j++) {
+      var leftCellAttempt = { x: i, y: j };
+      if (
+        !this.hits.find(function(cell) {
+          return cell.x == i && cell.y == j;
+        }) &&
+        !this.misses.find(function(cell) {
+          return cell.x == i && cell.y == j;
+        })
+      ) {
+        left.push(leftCellAttempt);
+      }
+    }
+  }
+  return left;
+};
+
 //PLAYER constructor
 
 var Player = function(person) {
@@ -188,8 +210,11 @@ Player.prototype.attack = function(cell, computer) {
   computer.gameBoard.receiveAttack(cell);
 };
 
-Player.prototype.AItakeOverHumanAttack = function(cell, human) {
-  human.gameBoard.receiveAttack(cell);
+Player.prototype.AItakeOverHumanAttack = function(human) {
+  var array = human.gameBoard.aiTriesToThink();
+  var newRandCell = array[Math.floor(Math.random() * array.length)];
+  human.gameBoard.receiveAttack(newRandCell);
+  return newRandCell;
 };
 
 /*

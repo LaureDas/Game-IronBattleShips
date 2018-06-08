@@ -4,6 +4,7 @@ var abc = function(x, y) {
 
 $("#pcThinks").hide();
 $("#end").hide();
+$(".popup").hide();
 
 var arrayShips1 = [
   new Ship("carrier", 5),
@@ -167,11 +168,11 @@ $(document).ready(function() {
     }
     //call AITake over humans function and send into it the RANDOM CELLS
 
-    // $("#pcThinks").fadeIn(2000);
-    //setTimeout(function() {
-    //  $("#pcThinks").fadeOut(2000);
-    computerAttack();
-    //}, 2000);
+    $("#pcThinks").fadeIn(2000);
+    setTimeout(function() {
+      $("#pcThinks").fadeOut(2000);
+      computerAttack();
+    }, 2000);
   });
 
   //OUTLAY COMPUTER ATTACKS
@@ -200,10 +201,14 @@ $(document).ready(function() {
   function computerAttack() {
     //look through miss and hit et si trouve alors, recalcule les random (en fonction)
 
-    x = Math.floor(Math.random() * 10);
-    y = Math.floor(Math.random() * 10);
-    var firstCell = { x: x, y: y };
-    player2.AItakeOverHumanAttack(firstCell, player1);
+    // x = Math.floor(Math.random() * 10);
+    //y = Math.floor(Math.random() * 10);
+    //var firstCell = { x: x, y: y };
+    var cell = player2.AItakeOverHumanAttack(player1);
+    console.log(cell);
+    console.log(cell.x);
+    var x = cell.x;
+    var y = cell.y;
     //change color by adding classes through outlayComputer fn()
     outlayComputer(x, y);
     //console.log(randomX, randomY); OK IM GETTING THE VALUE
