@@ -2,7 +2,8 @@ var abc = function(x, y) {
   console.log(x, y);
 };
 
-//start button
+$("#pcThinks").hide();
+$("#end").hide();
 
 var arrayShips1 = [
   new Ship("carrier", 5),
@@ -20,14 +21,18 @@ var arrayShips2 = [
   new Ship("frigate", 2)
 ];
 
-var player1 = new Player("human");
-var player2 = new Player("computer");
+var player1 = new Player("computer");
+var player2 = new Player("human");
 
 $(document).ready(function() {
   player1.gameBoard = new GameBoard(10);
   player2.gameBoard = new GameBoard(10);
   var countPcHits = 0;
 
+  $(".start").on("click", function(e) {
+    //setTimeout
+    $(".start").fadeOut(3000);
+  });
   //DEBUG CONSOLE
   function debug() {
     //show whether ship is sunk or not
@@ -44,7 +49,7 @@ $(document).ready(function() {
     $("#p1Boatsdestroyer > p:nth-child(2)").html(
       player1.gameBoard.contents[3].ship.score
     );
-    $("#p1Boatsfrigate > p:nth-child(2)").html(
+    $("#p1Boatssubmarine > p:nth-child(2)").html(
       player1.gameBoard.contents[4].ship.score
     );
     //player 2
@@ -60,15 +65,9 @@ $(document).ready(function() {
     $("#p2Boatsdestroyer > p:nth-child(2)").html(
       player2.gameBoard.contents[3].ship.score
     );
-    $("#p2Boatsfrigate > p:nth-child(2)").html(
+    $("#p2Boatssubmarine > p:nth-child(2)").html(
       player2.gameBoard.contents[4].ship.score
     );
-
-    //same with x and y for hits
-    //player 1
-
-    //player 2
-    //same with x and y for miss
   }
 
   function drawPlayersBoard(gameBoard) {
@@ -83,8 +82,6 @@ $(document).ready(function() {
         cell.classList.add("cell");
         cell.dataset.id = j;
         $(cell).attr("data-row", i);
-        /* cell.style.width = 100 / size + "%";
-        cell.style.height = 100 / size + "%";*/
         row.appendChild(cell);
       }
       board.appendChild(row);
@@ -105,8 +102,6 @@ $(document).ready(function() {
         cell.dataset.id = j;
         cell.classList.add("cell");
         $(cell).attr("data-row", i);
-        /*cell.style.width = 100 / size + "%";
-        cell.style.height = 100 / size + "%";*/
         row.appendChild(cell);
       }
       board.appendChild(row);
@@ -119,7 +114,6 @@ $(document).ready(function() {
 
   function shipShape(boardID, gameboard) {
     var board = document.getElementById(boardID);
-    //console.log(board);
     gameboard.contents.forEach(function(x) {
       //horizontal
       if (x.cells[0].x == x.cells[1].x) {
@@ -141,10 +135,16 @@ $(document).ready(function() {
 
   shipShape("playerboard", player1.gameBoard);
   shipShape("computerboard", player2.gameBoard);
+  $("#computerboard")
+    .find(".verticalS")
+    .css("background-color", "transparent");
+  $("#computerboard")
+    .find(".horizontalS")
+    .css("background-color", "transparent");
+  debug();
 
   //IF WE CLICK ON THE COMPUTER'S BOARD
   $("#computerboard .cell").on("click", function(event) {
-    //console.log(event);
     var $myCell = $(event.currentTarget);
     var y = $($myCell).data("id");
     var x = $($myCell).data("row");
@@ -162,15 +162,17 @@ $(document).ready(function() {
       $($myCell).addClass("miss");
     }
     if (player2.gameBoard.allSink()) {
-      console.log("the end: YOU WON");
+      $("#end").fadeIn(1000);
+      $("#end").append("!! " + "<br>" + "YOU DEFEATED THE PC");
     }
     //call AITake over humans function and send into it the RANDOM CELLS
 
-    setTimeout(function() {
-      computerAttack();
-    }, 2000);
+    // $("#pcThinks").fadeIn(2000);
+    //setTimeout(function() {
+    //  $("#pcThinks").fadeOut(2000);
+    computerAttack();
+    //}, 2000);
   });
-  //COMPUTER COUNTER PART ATTACK
 
   //OUTLAY COMPUTER ATTACKS
   var outlayComputer = function(randomX, randomY) {
@@ -194,6 +196,7 @@ $(document).ready(function() {
     }
   };
 
+  //COMPUTER COUNTER PART ATTACK
   function computerAttack() {
     //look through miss and hit et si trouve alors, recalcule les random (en fonction)
 
@@ -205,8 +208,9 @@ $(document).ready(function() {
     outlayComputer(x, y);
     //console.log(randomX, randomY); OK IM GETTING THE VALUE
     //end statement
-    if (player2.gameBoard.allSink()) {
-      console.log("the end: AI WON");
+    if (player1.gameBoard.allSink()) {
+      $("#end").fadeIn(1000);
+      $("#end").append("!! " + "<br>" + "THE PC BEAT YOU");
     }
 
     //var coords=[x,y];

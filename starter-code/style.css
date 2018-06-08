@@ -5,28 +5,69 @@ body {
   width: 100vw;
   height: 100vh;
 }
+
+#img {
+  background-image: url(../images/Sea.png);
+
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 #container {
   display: flex;
   flex-direction: row;
+  height: 90vh;
+  width: 100vw;
+}
+
+.start {
+  height: 100%;
+  width: 100%;
+  background-color: navy;
+  position: absolute;
+  font-size: 500px;
+  color: white;
+}
+
+#end {
+  height: 100%;
+  width: 100%;
+  background-color: navy;
+  position: absolute;
+  font-size: 500px;
+  color: white;
+  text-align: center;
+}
+
+#pcThinks {
+  position: absolute;
+  height: 100%;
+  width: 100%;
 }
 
 #debug {
   width: 30vw;
-  height: 70vh;
-  background-color: pink;
+  height: 85vh;
   font-size: 50px;
   text-align: center;
   font-style: bold;
   display: flex;
   flex-direction: column;
+  border-style: double;
 }
 
+#debug h2 {
+  color: white;
+}
 #players {
   display: flex;
   flex-direction: row;
   height: 100%;
   width: 100%;
   justify-content: space-evenly;
+  font-size: 65px;
+  font-weight: bold;
 }
 
 h2 {
@@ -34,7 +75,7 @@ h2 {
 }
 
 #p1.board #p2.board {
-  height: 50%;
+  height: 100%;
   width: 50%;
   background-color: white;
   display: flex;
@@ -42,10 +83,11 @@ h2 {
 }
 
 #p1.boats #p2.boats {
-  height: 100px;
-  width: 100px;
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: row;
+  font-weight: bold;
 }
 h1 {
   text-align: center;
@@ -53,11 +95,11 @@ h1 {
 }
 #boards {
   width: 70vw;
-  height: 100vh;
+  height: 72vh;
   display: flex;
   flex-direction: row;
   justify-content: center;
-  background-color: blue;
+
   padding: 5%;
 }
 
@@ -65,7 +107,7 @@ h1 {
   width: 60%;
   height: 70%;
   border-style: solid;
-  background-color: white;
+
   display: flex;
   flex-direction: column;
 }
@@ -74,7 +116,7 @@ h1 {
   width: 60%;
   height: 70%;
   border-style: solid;
-  background-color: yellow;
+
   display: flex;
   flex-direction: column;
 }
@@ -97,9 +139,14 @@ h1 {
 }
 
 .hit {
-  background-color: blueviolet;
+  background-image: url(../images/fire.png);
+  height: 50%;
 }
 
 .miss {
-  background-color: blue;
+  background-color: black;
+}
+
+#players p {
+  color: red;
 }

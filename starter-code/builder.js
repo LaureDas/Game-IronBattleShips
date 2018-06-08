@@ -55,10 +55,7 @@ GameBoard.prototype.addShip = function(start, inclination, ship) {
   if (validCell) {
     takenCell.forEach(function(x) {
       //push cells in ship constructor too
-      // console.log("this is x going into ship ", x);
-      //console.log("before going into", ship.shipLocations);
       ship.shipLocations.push(x);
-      // console.log("once into", ship.shipLocations);
     });
 
     //console.log("shiploc", ship.shipLocations);
@@ -161,6 +158,9 @@ GameBoard.prototype.hitShipInCell = function(cell) {
             x.ship.shipHits[i] = true;
           }
         }
+      }
+      if (x.ship.isSunk() && x.ship.score > 0) {
+        x.ship.score--;
       }
     });
   });
